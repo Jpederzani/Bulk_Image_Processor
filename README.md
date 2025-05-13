@@ -26,7 +26,7 @@ This is a simple PowerShell-based GUI application that allows users to resize pr
 5. Click **Resize Photos**.
 6. A popup will confirm successful processing and the window will close.
 
-> 💡 Tip: You can modify the script to allow folder browsing with a file dialog if needed.
+> **Tip:** You can modify the script to allow folder browsing with a file dialog if needed.
 
 ## Notes
 
