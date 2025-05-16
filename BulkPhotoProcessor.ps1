@@ -13,17 +13,33 @@ $label_1.Location = New-Object System.Drawing.Point(10, 20)
 $label_1.AutoSize = $true
 $form.Controls.Add($label_1)
 
+
 # Create the field
 $pathField = New-Object System.Windows.Forms.TextBox
 $pathField.Size = New-Object System.Drawing.Size(300, 20)
 $pathField.Location = New-Object System.Drawing.Point(120, 20)
 $form.Controls.Add($pathField)
 
+# Create a "Browse for Filepath" button
+$inBrowseBtn = New-Object System.Windows.Forms.Button
+$inBrowseBtn.Text = "Browse"
+$inBrowseBtn.Location = New-Object System.Drawing.Point(120, 42)
+$inBrowseBtn.Size = New-Object System.Drawing.Size(100, 20)
+$form.Controls.Add($inBrowseBtn)    # Add button to form
+
+# Add Event to button
+$inBrowseBtn.Add_Click({
+    $fileDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    if($fileDialog.ShowDialog() -eq 'OK'){
+        $pathField.Text = $fileDialog.SelectedPath
+    }
+})
+
 # Create a help tip
 $helpLabel_1 = New-Object System.Windows.Forms.Label
-$helpLabel_1.Text = "Please enter the full path to the directory (folder) that contains the product photos you wish to resize`ne.g. `"C:\Pictures\Products`""
-$helpLabel_1.Location = New-Object System.Drawing.Point(10, 40)
-$helpLabel_1.Size = New-Object System.Drawing.Size(400, 40)
+$helpLabel_1.Text = "Please enter the input filepath or click the `"Browse`" button.`nExample: `"C:\Pictures\Products\Input_Dir`""
+$helpLabel_1.Location = New-Object System.Drawing.Point(120, 65)
+$helpLabel_1.Size = New-Object System.Drawing.Size(400, 30)
 $helpLabel_1.ForeColor = [System.Drawing.Color]::Blue
 $form.Controls.Add($helpLabel_1)
 
@@ -40,20 +56,44 @@ $outField.Location = New-Object System.Drawing.Point(120, 100)
 $outField.Size = New-Object System.Drawing.Size(300, 20)
 $form.Controls.Add($outField)
 
+# Create another browse-folder dialog
+$outBrowseBtn = New-Object System.Windows.Forms.Button
+$outBrowseBtn.Text = "Browse" 
+$outBrowseBtn.Location = New-Object System.Drawing.Point(120, 122)
+$outBrowseBtn.Size = New-Object System.Drawing.Size(100, 20)
+$form.Controls.Add($outBrowseBtn)   # Add button to form
+$outBrowseBtn.Add_Click({
+    $outputDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    if($outputDialog.ShowDialog() -eq 'OK'){
+        $outField.Text = $outputDialog.SelectedPath
+    }
+})
+
 # Create another help tip
 $label2Help = New-Object System.Windows.Forms.Label
-$label2Help.Text = "This is the directory that you wish the rezied photos to be placed.`nNote: If this directory does not already exist, the application will crash, ensure it exists before running program!"
-$label2Help.Location = New-Object System.Drawing.Point(10, 120)
-$label2Help.Size = New-Object System.Drawing.Size(400, 40)
+$label2Help.Text = "Please enter the output directory path or select the `"Browse`" button."
+$label2Help.Location = New-Object System.Drawing.Point(120, 145)
+$label2Help.Size = New-Object System.Drawing.Size(400, 38)
 $label2Help.ForeColor = [System.Drawing.Color]::Blue
 $form.Controls.Add($label2Help)
 
-# Create a button to trigger program
+# Create a 'Start' button
 $startButton = New-Object System.Windows.Forms.Button
 $startButton.Text = "Resize Photos"
 $startButton.Location = New-Object System.Drawing.Point(150, 200)
 $startButton.AutoSize = $true
 $form.Controls.Add($startButton)
+
+# Create a 'Cancel' button
+$cancelBtn = New-Object System.Windows.Forms.Button
+$cancelBtn.Text = "Cancel"
+$cancelBtn.Location = New-Object System.Drawing.Point(300, 200)
+$cancelBtn.AutoSize = $true
+$form.Controls.Add($cancelBtn)
+
+$cancelBtn.Add_Click({
+    $form.Close()
+})
 
 $sourceRoot = $null
 $outputRoot = $null
